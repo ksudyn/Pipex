@@ -45,8 +45,8 @@ int main(int argc, char **argv, char **env)
 	// Cerrar archivos y liberar memoria
 	close(fd[0]);
 	close(fd[1]);
-	ft_free_kids(kid_1);
-	ft_free_kids(kid_2);
+	free_kids(kid_1);
+	free_kids(kid_2);
 
 	return (status);
 }

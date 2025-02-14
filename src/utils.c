@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-void	ft_free_kids(char **kid)
+void	free_kids(char **kid)
 {
 	int	i;
 

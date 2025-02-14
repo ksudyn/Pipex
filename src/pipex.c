@@ -37,7 +37,7 @@ void	ft_kid_1(int *fd, int *int_array, char **kid_1, char **env)
 	if (path_command)
 		execve(path_command, kid_1, env);
 
-	ft_free_kids(kid_1);
+	free_kids(kid_1);
 }
 
 int	ft_kid_2(int *fd, int *int_array, char **kid_2, char **env)
@@ -65,7 +65,7 @@ int	ft_kid_2(int *fd, int *int_array, char **kid_2, char **env)
 	if (path_command)
 		execve(path_command, kid_2, env);
 
-	ft_free_kids(kid_2);
+	free_kids(kid_2);
 	exit(127);
 }
 
@@ -83,7 +83,7 @@ int	ft_pipex(int *fd, char **kid_1, char **kid_2, char **env)
 	children_1 = fork();
 	if (children_1 == 0)
 	{
-		ft_free_kids(kid_2);
+		free_kids(kid_2);
 		ft_kid_1(fd, tube, kid_1, env);
 	}
 
@@ -91,7 +91,7 @@ int	ft_pipex(int *fd, char **kid_1, char **kid_2, char **env)
 	children_2 = fork();
 	if (children_2 == 0)
 	{
-		ft_free_kids(kid_1);
+		free_kids(kid_1);
 		status = ft_kid_2(fd, tube, kid_2, env);
 	}
 

@@ -12,33 +12,38 @@
 
 #include "pipex.h"
 
-char	*ft_check_command(char **path_list, char *path_mid, char *kid)
+char	*ft_check_command(char **path_list, char *path_temp, char *kid)
 {
-	int		j;
 	int		i;
-	char	*path_fin;
+	int		j;
+	char	*path_result;
 
-	j = -1;
-	while (path_list[++j])
+	i = -1;
+	while (path_list[++i])
 	{
-		path_mid = ft_strjoin(path_list[j], "/");
-		path_fin = ft_strjoin(path_mid, kid);
-		free(path_mid);
-		if (access(path_fin, X_OK) == 0)
+		path_temp = ft_strjoin(path_list[i], "/");
+		path_result = ft_strjoin(path_temp, kid);
+		free(path_temp);
+		if (access(path_result, X_OK) == 0)
 		{
-			i = 0;
-			while (path_list[i])
+			j = 0;
+			while (path_list[j])
 			{
-				free(path_list[i]);
-				i++;
+				free(path_list[j]);
+				j++;
 			}
 			free(path_list);
-			return (path_fin);
+			return (path_result);
 		}
-		free(path_fin);
+		free(path_result);
 	}
 	return (NULL);
 }
+
+//esta funcion busca en la lista de comandos separados por / 
+//el que se esta buscando, si se encuentra lo devuelve
+//y si no lo libera con free y pasa al siguiente, 
+//si no se encunetra en toda la lista retorna NULL
 
 char	*ft_get_path_command(char **kid, char **env, char *path_mid)
 {

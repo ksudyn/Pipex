@@ -32,6 +32,6 @@ int	ft_pipex(int *fd, char **kid_1, char **kid_2, char **env);
 char	*ft_check_command(char **path_list, char *path_mid, char *kid);
 char	*ft_get_path_command(char **kid, char **env, char *path_mid);
 
-void	ft_free_kids(char **kid);
+void	free_kids(char **kid);
 
 #endif
