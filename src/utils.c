@@ -24,3 +24,18 @@ void	free_kids(char **kid)
 	}
 	free(kid);
 }
+
+void	free_path_list(char **path_list)
+{
+	int	i;
+
+	i = 0;
+	if (!path_list)
+		return ;
+	while (path_list[i])
+	{
+		free(path_list[i]);
+		i++;
+	}
+	free(path_list);
+}

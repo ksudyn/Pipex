@@ -26,13 +26,7 @@ char	*ft_check_command(char **path_list, char *path_temp, char *kid)
 		free(path_temp);
 		if (access(path_result, X_OK) == 0)
 		{
-			j = 0;
-			while (path_list[j])
-			{
-				free(path_list[j]);
-				j++;
-			}
-			free(path_list);
+			free_path_list(path_list);
 			return (path_result);
 		}
 		free(path_result);
@@ -45,7 +39,7 @@ char	*ft_check_command(char **path_list, char *path_temp, char *kid)
 //y si no lo libera con free y pasa al siguiente, 
 //si no se encunetra en toda la lista retorna NULL
 
-char	*ft_get_path_command(char **kid, char **env, char *path_mid)
+char	*ft_get_path_command(char **kid, char **env, char *path_temp)
 {
 	int		i;
 	char	*path;
@@ -57,19 +51,20 @@ char	*ft_get_path_command(char **kid, char **env, char *path_mid)
 	i = -1;
 	while (env[++i])
 	{
-		if (!ft_strncmp("PATH=", env[i], 5))
+		if (ft_strncmp("PATH=", env[i], 5) == 0)
 		{
 			path_list = ft_split(env[i], ':');
-			path = ft_check_command(path_list, path_mid, kid[0]);
+			path = ft_check_command(path_list, path_temp, kid[0]);
 			if (path)
 				return (path);
 		}
 	}
-	i = 0;
-	while (path_list[i])
-	{
-		free(path_list[i]);
-		i++;
-	}
-	return (free(path_list), NULL);
+	free_path_list(path_list);
+	return (NULL);
 }
+//si un comando empieza por / significa que es una ruta absoluta
+//luego comprueba que sea ejecutable y si lo es lo retorna
+//Se recorre env (variables de entorno) buscando "PATH="
+//se divide en directorios y se utiliza a la funcion de arriba para buscar el comando
+//si existe retorna la ruta
+//si no se encuentra el comando se libera memoria de path_list ny retorna NULL

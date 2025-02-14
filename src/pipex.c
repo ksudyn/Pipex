@@ -12,13 +12,13 @@
 
 #include "pipex.h"
 
-void	ft_kid_1(int *fd, int *int_array, char **kid_1, char **env)
+void	ft_kid_1(int *fd, int *tube, char **kid_1, char **env)
 {
 	char *path_command;
-	char *path_mid;
+	char *path_temp;
 
 	// Cerrar extremo de lectura del pipe
-	close(int_array[0]);
+	close(tube[0]);
 
 	// Redirigir la entrada estándar (leer de infile)
 	dup2(fd[0], 0);
@@ -26,12 +26,12 @@ void	ft_kid_1(int *fd, int *int_array, char **kid_1, char **env)
 	close(fd[1]);
 
 	// Redirigir la salida estándar (escribir en el pipe)
-	dup2(int_array[1], 1);
-	close(int_array[1]);
+	dup2(tube[1], 1);
+	close(tube[1]);
 
 	// Obtener la ruta del comando
-	path_mid = NULL;
-	path_command = ft_get_path_command(kid_1, env, path_mid);
+	path_temp = NULL;
+	path_command = ft_get_path_command(kid_1, env, path_temp);
 
 	// Ejecutar el comando
 	if (path_command)
@@ -40,17 +40,17 @@ void	ft_kid_1(int *fd, int *int_array, char **kid_1, char **env)
 	free_kids(kid_1);
 }
 
-int	ft_kid_2(int *fd, int *int_array, char **kid_2, char **env)
+int	ft_kid_2(int *fd, int *tube, char **kid_2, char **env)
 {
 	char *path_command;
 	char *path_mid;
 
 	// Cerrar extremo de escritura del pipe
-	close(int_array[1]);
+	close(tube[1]);
 
 	// Redirigir la entrada estándar (leer del pipe)
-	dup2(int_array[0], 0);
-	close(int_array[0]);
+	dup2(tube[0], 0);
+	close(tube[0]);
 
 	// Redirigir la salida estándar (escribir en outfile)
 	dup2(fd[1], 1);
