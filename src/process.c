@@ -14,8 +14,7 @@
 
 char	*ft_check_command(char **path_list, char *path_temp, char *kid)
 {
-	int		i;
-	int		j;
+	int		i;	int		j;
 	char	*path_result;
 
 	i = -1;
