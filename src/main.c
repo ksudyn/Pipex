@@ -15,8 +15,8 @@
 int main(int argc, char **argv, char **env)
 {
 	int fd[2];  // fd[0] → infile, fd[1] → outfile
-	char **kid_1;
-	char **kid_2;
+	char **command_1;
+	char **command_2;
 	int status;
 
 	if (argc != 5)  // Verifica número de argumentos
@@ -39,17 +39,17 @@ int main(int argc, char **argv, char **env)
 	}
 
 	// Separar comandos en listas de argumentos
-	kid_1 = ft_split(argv[2], ' ');
-	kid_2 = ft_split(argv[3], ' ');
+	command_1 = ft_split(argv[2], ' ');
+	command_2 = ft_split(argv[3], ' ');
 
 	// Crear procesos y manejar pipes
-	status = ft_pipex(fd, kid_1, kid_2, env);
+	status = ft_pipex(fd, command_1, command_2, env);
 
 	// Cerrar archivos y liberar memoria
 	close(fd[0]);//Porque es una buena práctica cerrar los archivos después de que ya no se necesiten para liberar recursos
 	close(fd[1]);//Para liberar el recurso y evitar fugas de memoria o descriptores de archivo abiertos innecesarios
-	free_kids(kid_1);
-	free_kids(kid_2);
+	free_kids(command_1);
+	free_kids(command_2);
 
 	return (status);
 }

@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-void	ft_kid_1(int *fd, int *tube, char **kid_1, char **env)
+void	ft_kid_1(int *fd, int *tube, char **command_1, char **env)
 {
 	char *path_command;
 	char *path_temp;
@@ -31,16 +31,16 @@ void	ft_kid_1(int *fd, int *tube, char **kid_1, char **env)
 
 	// Obtener la ruta del comando
 	path_temp = NULL;
-	path_command = ft_get_path_command(kid_1, env, path_temp);
+	path_command = ft_get_path_command(command_1, env, path_temp);
 
 	// Ejecutar el comando
 	if (path_command)
-		execve(path_command, kid_1, env);
+		execve(path_command, command_1, env);
 
-	free_kids(kid_1);
+	free_kids(command_1);
 }
 
-int	ft_kid_2(int *fd, int *tube, char **kid_2, char **env)
+int	ft_kid_2(int *fd, int *tube, char **command_2, char **env)
 {
 	char *path_command;
 	char *path_mid;
@@ -59,17 +59,17 @@ int	ft_kid_2(int *fd, int *tube, char **kid_2, char **env)
 
 	// Obtener la ruta del comando
 	path_mid = NULL;
-	path_command = ft_get_path_command(kid_2, env, path_mid);
+	path_command = ft_get_path_command(command_2, env, path_mid);
 
 	// Ejecutar el comando
 	if (path_command)
-		execve(path_command, kid_2, env);
+		execve(path_command, command_2, env);
 
-	free_kids(kid_2);
+	free_kids(command_2);
 	exit(127);
 }
 
-int	ft_pipex(int *fd, char **kid_1, char **kid_2, char **env)
+int	ft_pipex(int *fd, char **command_1, char **command_2, char **env)
 {
 	int tube[2];
 	pid_t children_1;
@@ -83,16 +83,16 @@ int	ft_pipex(int *fd, char **kid_1, char **kid_2, char **env)
 	children_1 = fork();
 	if (children_1 == 0)
 	{
-		free_kids(kid_2);
-		ft_kid_1(fd, tube, kid_1, env);
+		free_kids(command_2);
+		ft_kid_1(fd, tube, command_1, env);
 	}
 
 	// Crear el segundo hijo (ejecuta kid_2)
 	children_2 = fork();
 	if (children_2 == 0)
 	{
-		free_kids(kid_1);
-		status = ft_kid_2(fd, tube, kid_2, env);
+		free_kids(command_1);
+		status = ft_kid_2(fd, tube, command_2, env);
 	}
 
 	// Cerrar extremos del pipe en el padre

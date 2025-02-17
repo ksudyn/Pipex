@@ -12,16 +12,16 @@
 
 #include "pipex.h"
 
-char	*ft_check_command(char **path_list, char *path_temp, char *kid)
+char	*ft_check_command(char **path_list, char *path_temp, char *command)
 {
-	int		i;	int		j;
+	int		i;
 	char	*path_result;
 
 	i = -1;
 	while (path_list[++i])
 	{
 		path_temp = ft_strjoin(path_list[i], "/");
-		path_result = ft_strjoin(path_temp, kid);
+		path_result = ft_strjoin(path_temp, command);
 		free(path_temp);
 		if (access(path_result, X_OK) == 0)
 		{
@@ -38,22 +38,22 @@ char	*ft_check_command(char **path_list, char *path_temp, char *kid)
 //y si no lo libera con free y pasa al siguiente, 
 //si no se encunetra en toda la lista retorna NULL
 
-char	*ft_get_path_command(char **kid, char **env, char *path_temp)
+char	*ft_get_path_command(char **command, char **env, char *path_temp)
 {
 	int		i;
 	char	*path;
 	char	**path_list;
 
-	if (ft_strchr(kid[0], '/'))
-		if (access(kid[0], X_OK) == 0)
-			return (ft_strdup(kid[0]));
+	if (ft_strchr(command[0], '/'))
+		if (access(command[0], X_OK) == 0)
+			return (ft_strdup(command[0]));
 	i = -1;
 	while (env[++i])
 	{
 		if (ft_strncmp("PATH=", env[i], 5) == 0)
 		{
 			path_list = ft_split(env[i], ':');
-			path = ft_check_command(path_list, path_temp, kid[0]);
+			path = ft_check_command(path_list, path_temp, command[0]);
 			if (path)
 				return (path);
 		}
