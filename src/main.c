@@ -31,7 +31,10 @@ int main(int argc, char **argv, char **env)
 	fd[1] = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0777);
 	if (fd[1] < 0)
 	{
-		close(fd[0]);
+		close(fd[0]);//cierra el archivo de entrada
+		//Porque si se produce un error al abrir el archivo de salida,
+		//es una buena práctica cerrar cualquier archivo abierto previamente
+		//para evitar fugas de recursos (en este caso, el archivo de entrada fd[0]).
 		return (ft_error(2));
 	}
 
@@ -43,8 +46,8 @@ int main(int argc, char **argv, char **env)
 	status = ft_pipex(fd, kid_1, kid_2, env);
 
 	// Cerrar archivos y liberar memoria
-	close(fd[0]);
-	close(fd[1]);
+	close(fd[0]);//Porque es una buena práctica cerrar los archivos después de que ya no se necesiten para liberar recursos
+	close(fd[1]);//Para liberar el recurso y evitar fugas de memoria o descriptores de archivo abiertos innecesarios
 	free_kids(kid_1);
 	free_kids(kid_2);
 
