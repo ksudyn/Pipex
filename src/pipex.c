@@ -36,8 +36,9 @@ void	ft_kid_1(int *fd, int *tube, char **command_1, char **env)
 	// Ejecutar el comando
 	if (path_command)
 		execve(path_command, command_1, env);
-
+	perror("error command");
 	free_kids(command_1);
+	exit(127);
 }
 
 int	ft_kid_2(int *fd, int *tube, char **command_2, char **env)
@@ -64,7 +65,7 @@ int	ft_kid_2(int *fd, int *tube, char **command_2, char **env)
 	// Ejecutar el comando
 	if (path_command)
 		execve(path_command, command_2, env);
-
+	perror("error command");
 	free_kids(command_2);
 	exit(127);
 }
@@ -103,6 +104,6 @@ int	ft_pipex(int *fd, char **command_1, char **command_2, char **env)
 	waitpid(children_1, &status, 0);
 	waitpid(children_2, &status, 0);
 
-	return (WEXITSTATUS(status));
+	return (0);
 }
 

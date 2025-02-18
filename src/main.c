@@ -22,11 +22,6 @@ int main(int argc, char **argv, char **env)
 	if (argc != 5)  // Verifica número de argumentos
 		return (ft_error(1));
 
-	// Abrir archivo de entrada (infile)
-	fd[0] = open(argv[1], O_RDONLY);
-	if (fd[0] < 0)
-		return (ft_error(2));
-
 	// Abrir archivo de salida (outfile)
 	fd[1] = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0777);
 	if (fd[1] < 0)
@@ -37,6 +32,10 @@ int main(int argc, char **argv, char **env)
 		//para evitar fugas de recursos (en este caso, el archivo de entrada fd[0]).
 		return (ft_error(2));
 	}
+	// Abrir archivo de entrada (infile)
+	fd[0] = open(argv[1], O_RDONLY);
+	if (fd[0] < 0)
+		return (ft_error(2));
 
 	// Separar comandos en listas de argumentos
 	command_1 = ft_split(argv[2], ' ');
@@ -53,3 +52,11 @@ int main(int argc, char **argv, char **env)
 
 	return (status);
 }
+//valgrind --leak-check=full --track-origins=yes ./pipex infile "ls -l" "wc -l" outfile
+//para comprobar si no hay leaks de memoria
+//Si te dice "All heap blocks were freed -- no leaks are possible", entonces todo está bien.
+//el valgrind no sigue lo procesos hijos y puede no generase o modificar outfile
+//entonces se hace esto./pipex infile "ls -l" "wc -l" outfile
+//echo $?  # Verificar código de salida.
+//Si el código de salida ($?) es diferente de 0, hay un error en la ejecución de algún comando
+//o quitar del makefile  -fsanitize=address y entoces deberia comprobar porque ambos buscan leaks de memoria

@@ -1,0 +1,6 @@
+Si outfile no se genera/modifica con valgrind, intenta:
+
+Ejecutar valgrind con --trace-children=yes.
+Verificar si pipex muestra errores al ejecutarse (echo $?).
+Recompilar sin -fsanitize=address y probar de nuevo.
+Si después de esto sigue sin funcionar, avísame y revisamos el código. 
