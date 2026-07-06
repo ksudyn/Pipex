@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksudyn <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ksudyn <ksudyn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:26:01 by ksudyn            #+#    #+#             */
-/*   Updated: 2025/02/11 12:26:03 by ksudyn           ###   ########.fr       */
+/*   Updated: 2026/07/06 21:03:59 by ksudyn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ char	*ft_get_path_command(char **command, char **env, char *path_temp)
 //si un comando empieza por / significa que es una ruta absoluta
 //luego comprueba que sea ejecutable y si lo es lo retorna
 //Se recorre env (variables de entorno) buscando "PATH="
-//se divide en directorios y se utiliza a la funcion de arriba para buscar el comando
+//se divide en directorios
+//y se utiliza a la funcion de arriba para buscar el comando
 //si existe retorna la ruta
-//si no se encuentra el comando se libera memoria de path_list ny retorna NULL
+//si no se encuentra el comando se libera memoria de path_list
+//y retorna NULL

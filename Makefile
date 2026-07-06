@@ -1,35 +1,39 @@
-NAME		= pipex
+NAME        = pipex
+CC          = cc
+CFLAGS      = -Wall -Wextra -Werror -Iincludes
 
-CC			= gcc
-CFLAGS		= -Wall -Werror -Wextra -g3 -Iincludes
+SRCS        = Pipex/main.c Pipex/pipex.c Pipex/process.c Pipex/utils.c Pipex/files.c
+OBJS        = $(SRCS:.c=.o)
 
-SRCS		:=	$(addprefix src/, \
-				files.c main.c pipex.c process.c utils.c)
+SRCS_BONUS  = pipex_bonus/main_bonus.c pipex_bonus/pipex_bonus.c \
+              Pipex/process.c Pipex/utils.c Pipex/files.c
+OBJS_BONUS  = $(SRCS_BONUS:.c=.o)
 
-OBJS		=	$(SRCS:.c=.o)
-
-LIBFT_DIR	= Libft
-LIBFT		= $(LIBFT_DIR)/libft.a
-
-all: $(NAME)
-
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
-
-$(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
+LIBFT_DIR   = ./Libft
+LIBFT       = $(LIBFT_DIR)/libft.a
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+all: $(LIBFT) $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+
+bonus: $(LIBFT) $(OBJS_BONUS)
+	$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT) -o $(NAME)
+
+$(LIBFT):
+	@make -C $(LIBFT_DIR)
+
 clean:
-	$(MAKE) -C $(LIBFT_DIR) clean
-	rm -f $(OBJS)
+	@make -C $(LIBFT_DIR) clean
+	rm -f $(OBJS) $(OBJS_BONUS)
 
 fclean: clean
-	$(MAKE) -C $(LIBFT_DIR) fclean
+	@make -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: clean fclean re all
+.PHONY: all clean fclean re bonus
